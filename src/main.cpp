@@ -1,165 +1,247 @@
 #include <Arduino.h>
+#include <WiFi.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
 #include <DHT.h>
-#include "WiFi.h"
 
+#define DHTPIN 4
+#define DHTTYPE DHT22
+#define LED_PIN 2
 
-// WiFi credentials.
-const char* WIFI_SSID = "iPhone de Jory";
-const char* WIFI_PASS = "Jory38360@@";
+const char *WIFI_SSID = "";
+const char *WIFI_PASS = "";
 
+DHT dht(DHTPIN, DHTTYPE);
 
-// Constants - ESP32 specific
-#define DHTPIN 4        // DHT22 connected to GPIO4 (common choice for ESP32)
-#define DHTTYPE DHT22   // DHT 22 (AM2302)
-#define LED_PIN 2       // Built-in LED on most ESP32 boards is GPIO2
+AsyncWebServer server(80);
+AsyncWebSocket ws("/ws");
+float temp, hum, heatIndex, tempF;
 
-DHT dht(DHTPIN, DHTTYPE); // Initialize DHT sensor
-
-// Variables
-float hum;  // Stores humidity value
-float temp; // Stores temperature value
-float tempF; // Temperature in Fahrenheit
-float heatIndex; // Heat index
-
-void setup() {
-  // Setup LED
-  pinMode(LED_PIN, OUTPUT);
-  
-  // Start Serial - ESP32 default
-  Serial.begin(115200);
-  
-  // ESP32 doesn't need to wait for Serial like some Arduino boards
-  delay(100); // Small delay for serial to initialize
-  
-  // Print ESP32 info
-  Serial.println("\n================================");
-  Serial.println("ESP32 DHT22 Sensor Test");
-  Serial.println("================================");
-  Serial.print("ESP32 Chip Model: ");
-  Serial.println(ESP.getChipModel());
-  Serial.print("CPU Frequency: ");
-  Serial.print(ESP.getCpuFreqMHz());
-  Serial.println(" MHz");
-  Serial.println("--------------------------------");
-  
-  // Initialize DHT sensor
-  dht.begin();
-  
-  Serial.println("DHT22 initializing...");
-  Serial.print("Sensor on GPIO: ");
-  Serial.println(DHTPIN);
-  Serial.println("Waiting for sensor to stabilize...");
-  
-  // Give sensor time to stabilize (DHT22 needs 2 seconds)
-  delay(2500);
-  Serial.println("Ready!");
-  Serial.println("================================\n");
-
-  Serial.begin(9600);
-    // Giving it a little time because the serial monitor doesn't
-    // immediately attach. Want the firmware that's running to
-    // appear on each upload.
-    delay(2000);
-
-    Serial.println();
-    Serial.println("Running Firmware.");
-
-    // Connect to Wifi.
-    Serial.println();
-    Serial.println();
-    Serial.print("Connecting to ");
-    Serial.println(WIFI_SSID);
-
-    // Set WiFi to station mode and disconnect from an AP if it was previously connected
-    WiFi.mode(WIFI_STA);
-    WiFi.disconnect();
-    delay(100);
-
-    WiFi.begin(WIFI_SSID, WIFI_PASS);
-    Serial.println("Connecting...");
-
-    while (WiFi.status() != WL_CONNECTED) {
-      // Check to see if connecting failed.
-      // This is due to incorrect credentials
-      if (WiFi.status() == WL_CONNECT_FAILED) {
-        Serial.println("Failed to connect to WIFI. Please verify credentials: ");
-        Serial.println();
-        Serial.print("SSID: ");
-        Serial.println(WIFI_SSID);
-        Serial.print("Password: ");
-        Serial.println(WIFI_PASS);
-        Serial.println();
-      }
-      delay(5000);
-    }
-
-    Serial.println("");
-    Serial.println("WiFi connected");
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());
-
-    Serial.println("Hello World, I'm connected to the internets!!");
+String getSensorDataJSON()
+{
+  String json = "{";
+  json += "\"temperature_c\":" + String(temp) + ",";
+  json += "\"temperature_f\":" + String(tempF) + ",";
+  json += "\"humidity\":" + String(hum) + ",";
+  json += "\"heat_index_c\":" + String(heatIndex);
+  json += "}";
+  return json;
 }
 
-void loop() {
-  // Blink LED to show the program is running
-  digitalWrite(LED_PIN, HIGH);
-  delay(50);
-  digitalWrite(LED_PIN, LOW);
-  
-  // Read humidity and temperature
+void notifyClients()
+{
+  String message = getSensorDataJSON();
+  ws.textAll(message);
+}
+
+void handleWebSocketMessage(void *arg, uint8_t *data, size_t len)
+{
+  // Not used here, but you could parse messages from client
+}
+
+void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
+             AwsEventType type, void *arg, uint8_t *data, size_t len)
+{
+  if (type == WS_EVT_CONNECT)
+  {
+    Serial.println("Client connected");
+    client->text(getSensorDataJSON());
+  }
+  else if (type == WS_EVT_DISCONNECT)
+  {
+    Serial.println("Client disconnected");
+  }
+  else if (type == WS_EVT_DATA)
+  {
+    handleWebSocketMessage(arg, data, len);
+  }
+}
+
+void setup()
+{
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(115200);
+  dht.begin();
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  Serial.print("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nConnected!");
+  Serial.println(WiFi.localIP());
+  ws.onEvent(onEvent);
+  server.addHandler(&ws);
+  // Serve a beautiful HTML page
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(
+                  200, "text/html",
+                  R"rawliteral(
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ESP32 Climate Monitor</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+          }
+          .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+          }
+          .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+          }
+          .status {
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            background: #d4edda;
+            color: #155724;
+          }
+          .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+          }
+          .cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+          }
+          .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+          }
+          .card:hover {
+            transform: translateY(-5px);
+          }
+          .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+          }
+          .card-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+          }
+          .card-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+          .card-unit {
+            font-size: 1.2em;
+            opacity: 0.8;
+          }
+          .card.temp { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+          .card.humidity { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+          .card.heat { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+          @media (max-width: 600px) {
+            .container { padding: 25px; }
+            h1 { font-size: 1.5em; }
+            .card-value { font-size: 2em; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>🌡️ Climate Monitor</h1>
+          <p class="subtitle">ESP32 DHT22 Real-time Sensor</p>
+          <div id="status" class="status">Connecting...</div>
+          <div class="cards">
+            <div class="card temp">
+              <div class="card-icon">🌡️</div>
+              <div class="card-label">Temperature</div>
+              <div class="card-value" id="temp">--</div>
+              <div class="card-unit">°C</div>
+            </div>
+            <div class="card humidity">
+              <div class="card-icon">💧</div>
+              <div class="card-label">Humidity</div>
+              <div class="card-value" id="hum">--</div>
+              <div class="card-unit">%</div>
+            </div>
+            <div class="card heat">
+              <div class="card-icon">🔥</div>
+              <div class="card-label">Heat Index</div>
+              <div class="card-value" id="heat">--</div>
+              <div class="card-unit">°C</div>
+            </div>
+          </div>
+        </div>
+        <script>
+          var gateway = `ws://${window.location.hostname}/ws`;
+          var ws = new WebSocket(gateway);
+          var statusEl = document.getElementById("status");
+          
+          ws.onopen = function() {
+            statusEl.textContent = "✓ Connected";
+            statusEl.classList.remove("disconnected");
+          };
+          
+          ws.onclose = function() {
+            statusEl.textContent = "✗ Disconnected";
+            statusEl.classList.add("disconnected");
+          };
+          
+          ws.onmessage = function(event) {
+            let data = JSON.parse(event.data);
+            document.getElementById("temp").textContent = data.temperature_c.toFixed(1);
+            document.getElementById("hum").textContent = data.humidity.toFixed(1);
+            document.getElementById("heat").textContent = data.heat_index_c.toFixed(1);
+          };
+        </script>
+      </body>
+      </html>
+      )rawliteral"); });
+  server.begin();
+}
+
+void loop()
+{
+  // Read sensor every 3s
   hum = dht.readHumidity();
   temp = dht.readTemperature();
-  tempF = dht.readTemperature(true); // Read temperature in Fahrenheit
-  
-  // Check if readings are valid
-  if (isnan(hum) || isnan(temp) || isnan(tempF)) {
-    Serial.println("❌ Failed to read from DHT sensor!");
-    Serial.println("   Check wiring:");
-    Serial.println("   - Data pin → GPIO4");
-    Serial.println("   - VCC → 3.3V (NOT 5V!)");
-    Serial.println("   - GND → GND");
-    Serial.println("   - 10kΩ pull-up resistor between Data and VCC");
-  } else {
-    // Calculate heat index
+  tempF = dht.readTemperature(true);
+  if (!isnan(hum) && !isnan(temp) && !isnan(tempF))
+  {
     heatIndex = dht.computeHeatIndex(temp, hum, false);
-    
-    // Print readings with better formatting
-    Serial.println("--- Sensor Readings ---");
-    
-    Serial.print("🌡️  Temperature: ");
-    Serial.print(temp);
-    Serial.print(" °C / ");
-    Serial.print(tempF);
-    Serial.println(" °F");
-    
-    Serial.print("💧 Humidity:    ");
-    Serial.print(hum);
-    Serial.println(" %");
-    
-    Serial.print("🔥 Heat Index:  ");
-    Serial.print(heatIndex);
-    Serial.println(" °C");
-    
-    // Add comfort level indicator
-    Serial.print("📊 Comfort:     ");
-    if (temp < 18) {
-      Serial.println("Too Cold");
-    } else if (temp >= 18 && temp <= 24 && hum >= 40 && hum <= 60) {
-      Serial.println("Comfortable");
-    } else if (temp > 24 && temp <= 27) {
-      Serial.println("Warm");
-    } else if (temp > 27) {
-      Serial.println("Hot");
-    } else if (hum < 40) {
-      Serial.println("Too Dry");
-    } else if (hum > 60) {
-      Serial.println("Too Humid");
-    }
-    
-    Serial.println("-----------------------\n");
+    notifyClients(); // Push update to all connected browsers
   }
-  
-  // Wait before next reading (DHT22 should not be read more than once every 2 seconds)
   delay(3000);
 }
