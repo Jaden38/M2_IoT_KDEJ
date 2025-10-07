@@ -8,8 +8,8 @@
 #define DHTTYPE DHT22
 #define LED_PIN 2
 
-const char *WIFI_SSID = "";
-const char *WIFI_PASS = "";
+const char* WIFI_SSID = "";
+const char* WIFI_PASS = "";
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -74,7 +74,11 @@ void setup()
   Serial.println(WiFi.localIP());
   ws.onEvent(onEvent);
   server.addHandler(&ws);
-  // Serve a beautiful HTML page
+
+  server.on("/data", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(200, "application/json", getSensorDataJSON());
+  });
+
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(
                   200, "text/html",
