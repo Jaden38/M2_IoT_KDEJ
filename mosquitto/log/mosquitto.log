@@ -547,3 +547,24 @@
 1760005899: Client noderedb5c1f6c753b26950 disconnected.
 1760005899: New connection from 172.19.0.3:50048 on port 1883.
 1760005899: New client connected from 172.19.0.3:50048 as nodered9c0f559a2bb770b4 (p2, c1, k60).
+1760005948: Client nodered9c0f559a2bb770b4 disconnected.
+1760005948: New connection from 172.19.0.3:54094 on port 1883.
+1760005948: New client connected from 172.19.0.3:54094 as nodered50f3bc12d959de3c (p2, c1, k60).
+1760006719: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1760007518: Client ESP32_DHT22_Client closed its connection.
+1760007524: New connection from 172.19.0.1:53896 on port 1883.
+1760007524: New client connected from 172.19.0.1:53896 as ESP32_DHT22_Client (p2, c1, k15).
+1760007760: Client ESP32_DHT22_Client has exceeded timeout, disconnecting.
+1760007763: New connection from 172.19.0.1:38976 on port 1883.
+1760007763: New client connected from 172.19.0.1:38976 as ESP32_DHT22_Client (p2, c1, k15).
+1760008799: Client ESP32_DHT22_Client closed its connection.
+1760008799: New connection from 172.19.0.1:42042 on port 1883.
+1760008799: New client connected from 172.19.0.1:42042 as ESP32_DHT22_Client (p2, c1, k15).
+1760008801: Client ESP32_DHT22_Client closed its connection.
+1760009866: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1760011385: New connection from 172.19.0.1:54908 on port 1883.
+1760011385: New client connected from 172.19.0.1:54908 as ESP32_DHT22_Client (p2, c1, k15).
+1760011541: New connection from 172.19.0.1:51388 on port 1883.
+1760011541: Client ESP32_DHT22_Client already connected, closing old connection.
+1760011541: New client connected from 172.19.0.1:51388 as ESP32_DHT22_Client (p2, c1, k15).
+1760011581: Saving in-memory database to /mosquitto/data//mosquitto.db.
