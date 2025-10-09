@@ -50,11 +50,11 @@ graph TB
     DASH -->|Données Temps Réel| PC2
     
     %% Style
-    classDef hardware fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef software fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef network fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef external fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
-    classDef client fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef hardware fill:#4FC3F7,stroke:#0277BD,stroke-width:3px,color:#fff
+    classDef software fill:#9575CD,stroke:#512DA8,stroke-width:3px,color:#fff
+    classDef network fill:#FFB74D,stroke:#F57C00,stroke-width:3px,color:#000
+    classDef external fill:#81C784,stroke:#388E3C,stroke-width:3px,color:#fff
+    classDef client fill:#F06292,stroke:#C2185B,stroke-width:3px,color:#fff
     
     class ESP,DHT,PIR hardware
     class MQTT,NR software
