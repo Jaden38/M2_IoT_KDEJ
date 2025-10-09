@@ -7,6 +7,7 @@ MQTTClientWrapper::MQTTClientWrapper() : mqttClient(wifiClient) {
     instance = this;
     mqttClient.setServer(MQTT_BROKER, MQTT_PORT);
     mqttClient.setCallback(callback);
+    mqttClient.setBufferSize(512); // Increase buffer size for JSON
 }
 
 void MQTTClientWrapper::connect() {
@@ -46,19 +47,31 @@ void MQTTClientWrapper::handleCommand(const String& topic, const String& payload
 }
 
 void MQTTClientWrapper::publishSensorData(float temp, float hum, float heatIndex, float tempF) {
+    // Check connection first
+    if (!mqttClient.connected()) {
+        Serial.println("❌ MQTT not connected, cannot publish!");
+        return;
+    }
+
     JsonDocument doc;
-    doc["temperature_c"]     = temp;
+    doc["temperature_c"] = temp;
     doc["temperature_f"] = tempF;
     doc["humidity"] = hum;
     doc["heat_index_c"] = heatIndex;
     doc["timestamp"] = millis();
 
     char buffer[256];
-    serializeJson(doc, buffer);
+    size_t len = serializeJson(doc, buffer);
+    
+    Serial.printf("Publishing to %s: ", MQTT_TOPIC_SENSOR);
+    Serial.println(buffer);
 
-    if (mqttClient.publish(MQTT_TOPIC_SENSOR, buffer)) {
-        Serial.println("Data published");
+    bool result = mqttClient.publish(MQTT_TOPIC_SENSOR, buffer);
+    
+    if (result) {
+        Serial.println("✓ Data published successfully");
     } else {
-        Serial.println("Publish failed");
+        Serial.printf("❌ Publish failed! Buffer size: %d, Message size: %d\n", 
+                      mqttClient.getBufferSize(), len);
     }
 }
