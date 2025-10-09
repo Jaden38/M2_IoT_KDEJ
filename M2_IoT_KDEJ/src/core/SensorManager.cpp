@@ -10,7 +10,7 @@ bool SensorManager::read(float& temp, float& hum, float& tempF, float& heatIndex
     tempF = dht.readTemperature(true);
 
     if (isnan(hum) || isnan(temp)) {
-        Serial.println("❌ Failed to read from DHT");
+        Serial.println("Failed to read from DHT");
         return false;
     }
 

@@ -14,11 +14,11 @@ void MQTTClientWrapper::connect() {
     while (!mqttClient.connected()) {
         Serial.print("Connecting to MQTT...");
         if (mqttClient.connect(MQTT_CLIENT_ID)) {
-            Serial.println("✓ Connected");
+            Serial.println("Connected");
             mqttClient.subscribe(MQTT_TOPIC_COMMAND);
             mqttClient.publish(MQTT_TOPIC_STATUS, "online");
         } else {
-            Serial.printf("✗ Failed, rc=%d. Retrying in 5s...\n", mqttClient.state());
+            Serial.printf("Failed, rc=%d. Retrying in 5s...\n", mqttClient.state());
             delay(5000);
         }
     }
