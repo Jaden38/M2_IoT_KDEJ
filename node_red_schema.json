@@ -1,0 +1,629 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "MQTT CONNECT",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "243a0eedb0eca089",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "home/climate/sensors",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "ba850d9dd242e0f0",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 80,
+        "wires": [
+            [
+                "83ca20cb923cded5"
+            ]
+        ]
+    },
+    {
+        "id": "1973d4e1877a6da5",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "home/security/motion",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "ba850d9dd242e0f0",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 600,
+        "wires": [
+            [
+                "190d94554ab674be"
+            ]
+        ]
+    },
+    {
+        "id": "10c00e12f04cbaa5",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "83ca20cb923cded5",
+        "type": "json",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 290,
+        "y": 80,
+        "wires": [
+            [
+                "43a3479f532caf5a",
+                "3721b330b7079551",
+                "e82245bd8f703d81",
+                "2baf2e33d168f5fb",
+                "77f646349b1f3401"
+            ]
+        ]
+    },
+    {
+        "id": "43a3479f532caf5a",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "79d2a40f93f60313",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "Temperature Celsius",
+        "label": "Temperature (Celsius)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "msg.payload.temperature_c",
+        "valueType": "jsonata",
+        "x": 820,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3721b330b7079551",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "79d2a40f93f60313",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "Temperature Fahrenheit",
+        "label": "Temperature (Fahrenheit)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "msg.payload.temperature_f",
+        "valueType": "jsonata",
+        "x": 830,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "e82245bd8f703d81",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "79d2a40f93f60313",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "Humidity",
+        "label": "Humidity",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "msg.payload.humidity",
+        "valueType": "jsonata",
+        "x": 780,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ba753152f66998de",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "79d2a40f93f60313",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "Date",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "msg.payload.timestamp_human",
+        "valueType": "jsonata",
+        "x": 770,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "2e51ebbe9a61c53c",
+        "type": "moment",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "input": "timestamp",
+        "inputType": "msg",
+        "inTz": "Europe/Paris",
+        "adjAmount": "",
+        "adjType": "days",
+        "adjDir": "subtract",
+        "format": "dddd D MMMM YYYY, HH:mm:ss",
+        "locale": "fr-FR",
+        "output": "payload.timestamp_human",
+        "outputType": "msg",
+        "outTz": "Europe/Paris",
+        "x": 340,
+        "y": 200,
+        "wires": [
+            [
+                "ba753152f66998de"
+            ]
+        ]
+    },
+    {
+        "id": "2baf2e33d168f5fb",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "function 1",
+        "func": "let ts = msg.payload.timestamp;\nlet now = Date.now();\n\nmsg.payload.timestamp_iso = new Date(now).toISOString();\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 160,
+        "wires": [
+            [
+                "2e51ebbe9a61c53c"
+            ]
+        ]
+    },
+    {
+        "id": "821af1f28553ee5b",
+        "type": "pushover api",
+        "z": "f6f2187d.f17ca8",
+        "keys": "dd383fcc4ca36c19",
+        "title": "Welcome in the room !",
+        "name": "msg.payload",
+        "x": 1190,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "190d94554ab674be",
+        "type": "json",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 290,
+        "y": 600,
+        "wires": [
+            [
+                "b4598a8e00542abd",
+                "f5a2b66d729af79c",
+                "4fef1c175a22cb6a"
+            ]
+        ]
+    },
+    {
+        "id": "b4598a8e00542abd",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "2556a179f6cdfa70",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "Motion State",
+        "label": "Motion State",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.status",
+        "valueType": "msg",
+        "x": 830,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "f5a2b66d729af79c",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "function 4",
+        "func": "let ts = msg.payload.timestamp;\nlet now = Date.now();\n\nmsg.payload.timestamp_iso = new Date(now).toISOString();\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 680,
+        "wires": [
+            [
+                "654a6e9920bf998d"
+            ]
+        ]
+    },
+    {
+        "id": "654a6e9920bf998d",
+        "type": "moment",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "input": "timestamp",
+        "inputType": "msg",
+        "inTz": "Europe/Paris",
+        "adjAmount": "",
+        "adjType": "days",
+        "adjDir": "subtract",
+        "format": "dddd D MMMM YYYY, HH:mm:ss",
+        "locale": "fr-FR",
+        "output": "payload.timestamp_human",
+        "outputType": "msg",
+        "outTz": "Europe/Paris",
+        "x": 660,
+        "y": 680,
+        "wires": [
+            [
+                "8a0e3c0d2a2f7105"
+            ]
+        ]
+    },
+    {
+        "id": "8a0e3c0d2a2f7105",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "2556a179f6cdfa70",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "Date",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "msg.payload.timestamp_human",
+        "valueType": "jsonata",
+        "x": 850,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "99f75059b824c232",
+        "type": "join",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": true,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 650,
+        "y": 520,
+        "wires": [
+            [
+                "cc3d6d55661e9196"
+            ]
+        ]
+    },
+    {
+        "id": "4fef1c175a22cb6a",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "movement_data",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 520,
+        "wires": [
+            [
+                "99f75059b824c232"
+            ]
+        ]
+    },
+    {
+        "id": "77f646349b1f3401",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "temperature_data",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 460,
+        "wires": [
+            [
+                "99f75059b824c232"
+            ]
+        ]
+    },
+    {
+        "id": "8c123c645f1ecc7c",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "function 2",
+        "func": "const t = msg.payload.temperature_data || {};\nconst m = msg.payload.movement_data || {};\n\nif (!m.motion) return null;\n\nconst temp = t.temperature_c?.toFixed(1) ?? \"?\";\nconst hum = t.humidity?.toFixed(0) ?? \"?\";\n\nconst now = new Date().toLocaleString(\"fr-FR\", {\n    timeZone: \"Europe/Paris\",\n    hour: \"2-digit\",\n    minute: \"2-digit\",\n    second: \"2-digit\"\n});\n\n\nmsg.payload = `\n    🚨 Mouvement détecté à ${now}\\n\n    🌡 Température : ${temp}°C\\n\n    💧 Humidité : ${hum}%\n`;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 520,
+        "wires": [
+            [
+                "10c00e12f04cbaa5",
+                "821af1f28553ee5b"
+            ]
+        ]
+    },
+    {
+        "id": "cc3d6d55661e9196",
+        "type": "delay",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 840,
+        "y": 520,
+        "wires": [
+            [
+                "8c123c645f1ecc7c"
+            ]
+        ]
+    },
+    {
+        "id": "ba850d9dd242e0f0",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mosquitto",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "79d2a40f93f60313",
+        "type": "ui-group",
+        "name": "Temperature",
+        "page": "fc857a8befc017ef",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "info": "## Test\r\n### Hello"
+    },
+    {
+        "id": "dd383fcc4ca36c19",
+        "type": "pushover-keys",
+        "name": ""
+    },
+    {
+        "id": "2556a179f6cdfa70",
+        "type": "ui-group",
+        "name": "Motion",
+        "page": "fc857a8befc017ef",
+        "width": 6,
+        "height": 1,
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "fc857a8befc017ef",
+        "type": "ui-page",
+        "name": "NOP",
+        "ui": "58357dbe5ea734a9",
+        "path": "/",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "2c66c7c59bcc8c76",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "58357dbe5ea734a9",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "2c66c7c59bcc8c76",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#949494",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "d53a5a861a43ceb4",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0",
+            "node-red-contrib-moment": "5.0.0",
+            "node-red-contrib-pushover": "0.2.0"
+        }
+    }
+]
