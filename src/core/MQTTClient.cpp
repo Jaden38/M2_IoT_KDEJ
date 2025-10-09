@@ -46,8 +46,8 @@ void MQTTClientWrapper::handleCommand(const String& topic, const String& payload
 }
 
 void MQTTClientWrapper::publishSensorData(float temp, float hum, float heatIndex, float tempF) {
-    StaticJsonDocument<256> doc;
-    doc["temperature_c"] = temp;
+    JsonDocument doc;
+    doc["temperature_c"]     = temp;
     doc["temperature_f"] = tempF;
     doc["humidity"] = hum;
     doc["heat_index_c"] = heatIndex;
