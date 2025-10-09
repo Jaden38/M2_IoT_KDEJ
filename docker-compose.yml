@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - C:\ESGI\M2\IoT\mosquitto\config\mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - C:\ESGI\M2\IoT\mosquitto\data:/mosquitto/data
+      - C:\ESGI\M2\IoT\mosquitto\log:/mosquitto/log
+    restart: unless-stopped
+    networks:
+      - iot-network
+
+  nodered:
+    image: nodered/node-red
+    container_name: mynodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - node_red_data:/data
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+    networks:
+      - iot-network
+
+networks:
+  iot-network:
+    driver: bridge
+
+volumes:
+  node_red_data:
