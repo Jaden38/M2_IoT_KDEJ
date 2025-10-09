@@ -141,3 +141,75 @@
 1759998130: Config loaded from /mosquitto/config/mosquitto.conf.
 1759998130: Opening ipv4 listen socket on port 1883.
 1759998130: mosquitto version 2.0.22 running
+1759999054: New connection from 172.19.0.4:38632 on port 1883.
+1759999054: New client connected from 172.19.0.4:38632 as auto-BE64F6D3-15B1-A2EE-E91F-48E570F5326E (p2, c1, k60).
+1759999065: Client auto-BE64F6D3-15B1-A2EE-E91F-48E570F5326E disconnected.
+1759999073: New connection from 172.19.0.4:51050 on port 1883.
+1759999073: New client connected from 172.19.0.4:51050 as auto-AF98FB5F-3103-786F-60E4-1A7D1178026F (p2, c1, k60).
+1759999073: Client auto-AF98FB5F-3103-786F-60E4-1A7D1178026F disconnected.
+1759999280: New connection from 127.0.0.1:42098 on port 1883.
+1759999280: New client connected from 127.0.0.1:42098 as auto-9DBB42DE-7B72-3F99-1AD4-8C6B201B6C7A (p2, c1, k60).
+1759999296: Client auto-9DBB42DE-7B72-3F99-1AD4-8C6B201B6C7A disconnected.
+1759999300: New connection from 127.0.0.1:32966 on port 1883.
+1759999300: New client connected from 127.0.0.1:32966 as auto-F13F618E-CAF3-E23F-544D-908EB99A29DE (p2, c1, k60).
+1759999388: New connection from 127.0.0.1:40828 on port 1883.
+1759999388: New client connected from 127.0.0.1:40828 as auto-C5B31EAE-7BFB-4394-9BC5-CF909E272577 (p2, c1, k60).
+1759999401: Client auto-C5B31EAE-7BFB-4394-9BC5-CF909E272577 disconnected.
+1759999402: New connection from 127.0.0.1:51772 on port 1883.
+1759999402: New client connected from 127.0.0.1:51772 as auto-2F430C0A-4172-4530-158D-4230F0F1F197 (p2, c1, k60).
+1759999412: Client auto-2F430C0A-4172-4530-158D-4230F0F1F197 disconnected.
+1759999413: New connection from 127.0.0.1:39110 on port 1883.
+1759999413: New client connected from 127.0.0.1:39110 as auto-AB7597C7-E031-F70C-B400-34D307F8FEB0 (p2, c1, k60).
+1759999413: Client auto-AB7597C7-E031-F70C-B400-34D307F8FEB0 disconnected.
+1759999417: New connection from 127.0.0.1:39116 on port 1883.
+1759999417: New client connected from 127.0.0.1:39116 as auto-80E4F77F-CBCD-18DD-4021-9A132C46B34F (p2, c1, k60).
+1759999417: Client auto-80E4F77F-CBCD-18DD-4021-9A132C46B34F disconnected.
+1759999459: New connection from 127.0.0.1:50748 on port 1883.
+1759999459: New client connected from 127.0.0.1:50748 as auto-1A395DD1-99D4-B92F-6517-7A43E148ED16 (p2, c1, k60).
+1759999471: New connection from 127.0.0.1:60294 on port 1883.
+1759999471: New client connected from 127.0.0.1:60294 as auto-C3215FEC-16CA-C2B4-7DAA-BF00CB31C48E (p2, c1, k60).
+1759999471: Client auto-C3215FEC-16CA-C2B4-7DAA-BF00CB31C48E disconnected.
+1759999488: Client auto-1A395DD1-99D4-B92F-6517-7A43E148ED16 disconnected.
+1759999489: New connection from 127.0.0.1:43532 on port 1883.
+1759999489: New client connected from 127.0.0.1:43532 as auto-4D23BCE0-F202-DC9B-10D6-9558C4CDB853 (p2, c1, k60).
+1759999689: Client auto-4D23BCE0-F202-DC9B-10D6-9558C4CDB853 disconnected.
+1759999725: New connection from 127.0.0.1:37304 on port 1883.
+1759999725: New client connected from 127.0.0.1:37304 as auto-9FFFB7DC-DB86-3B36-8B1E-3F99F1938E01 (p2, c1, k60).
+1759999738: New connection from 172.19.0.1:58092 on port 1883.
+1759999738: New client connected from 172.19.0.1:58092 as ESP32_DHT22_Client (p2, c1, k15).
+1759999752: New connection from 172.19.0.1:42202 on port 1883.
+1759999754: Client ESP32_DHT22_Client closed its connection.
+1759999761: New client connected from 172.19.0.1:42202 as ESP32_DHT22_Client (p2, c1, k15).
+1759999794: Client auto-9FFFB7DC-DB86-3B36-8B1E-3F99F1938E01 disconnected.
+1759999823: New connection from 127.0.0.1:53520 on port 1883.
+1759999823: New client connected from 127.0.0.1:53520 as auto-0311210B-EF73-F876-0E31-7877EB69D1B9 (p2, c1, k60).
+1759999839: Client auto-0311210B-EF73-F876-0E31-7877EB69D1B9 disconnected.
+1759999840: New connection from 127.0.0.1:36986 on port 1883.
+1759999840: New client connected from 127.0.0.1:36986 as auto-72D8043F-FA4E-95F2-6088-C32A5548E25D (p2, c1, k60).
+1759999852: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1759999865: New connection from 172.19.0.1:45786 on port 1883.
+1759999865: Client ESP32_DHT22_Client already connected, closing old connection.
+1759999865: New client connected from 172.19.0.1:45786 as ESP32_DHT22_Client (p2, c1, k15).
+1759999886: Client ESP32_DHT22_Client has exceeded timeout, disconnecting.
+1759999906: New connection from 172.19.0.1:34080 on port 1883.
+1759999908: New client connected from 172.19.0.1:34080 as ESP32_DHT22_Client (p2, c1, k15).
+1759999986: Client auto-72D8043F-FA4E-95F2-6088-C32A5548E25D disconnected.
+1759999998: New connection from 127.0.0.1:44748 on port 1883.
+1759999998: New client connected from 127.0.0.1:44748 as auto-6021D797-92F3-A376-5B08-3463D52A3E1D (p2, c1, k60).
+1760000000: Client auto-6021D797-92F3-A376-5B08-3463D52A3E1D disconnected.
+1760000003: New connection from 127.0.0.1:43132 on port 1883.
+1760000003: New client connected from 127.0.0.1:43132 as auto-D20FAE7D-C65C-5932-68AA-72ABB4D16EFA (p2, c1, k60).
+1760000007: Client auto-D20FAE7D-C65C-5932-68AA-72ABB4D16EFA disconnected.
+1760000044: New connection from 127.0.0.1:54450 on port 1883.
+1760000044: New client connected from 127.0.0.1:54450 as auto-CC6AC467-D628-26E2-BA94-F93830A84F02 (p2, c1, k60).
+1760000051: Client ESP32_DHT22_Client has exceeded timeout, disconnecting.
+1760000051: New connection from 127.0.0.1:54392 on port 1883.
+1760000051: New client connected from 127.0.0.1:54392 as auto-2CBF8E2D-B57C-47A2-4816-00063387C6BF (p2, c1, k60).
+1760000069: New connection from 172.19.0.1:47156 on port 1883.
+1760000069: New client connected from 172.19.0.1:47156 as ESP32_DHT22_Client (p2, c1, k15).
+1760000195: Client ESP32_DHT22_Client has exceeded timeout, disconnecting.
+1760000208: New connection from 172.19.0.1:57036 on port 1883.
+1760000208: New client connected from 172.19.0.1:57036 as ESP32_DHT22_Client (p2, c1, k15).
+1760000680: Client ESP32_DHT22_Client has exceeded timeout, disconnecting.
+1760000687: New connection from 172.19.0.1:46788 on port 1883.
+1760000687: New client connected from 172.19.0.1:46788 as ESP32_DHT22_Client (p2, c1, k15).

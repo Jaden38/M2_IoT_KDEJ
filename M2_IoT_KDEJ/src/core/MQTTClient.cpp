@@ -75,3 +75,30 @@ void MQTTClientWrapper::publishSensorData(float temp, float hum, float heatIndex
                       mqttClient.getBufferSize(), len);
     }
 }
+
+void MQTTClientWrapper::publishMotionEvent(bool motionDetected) {
+    // Check connection first
+    if (!mqttClient.connected()) {
+        Serial.println("❌ MQTT not connected, cannot publish motion event!");
+        return;
+    }
+
+    JsonDocument doc;
+    doc["motion"] = motionDetected;
+    doc["status"] = motionDetected ? "detected" : "clear";
+    doc["timestamp"] = millis();
+
+    char buffer[256];
+    serializeJson(doc, buffer);
+    
+    Serial.printf("Publishing to %s: ", MQTT_TOPIC_MOTION);
+    Serial.println(buffer);
+
+    bool result = mqttClient.publish(MQTT_TOPIC_MOTION, buffer);
+    
+    if (result) {
+        Serial.println("✓ Motion event published successfully");
+    } else {
+        Serial.println("❌ Motion event publish failed!");
+    }
+}

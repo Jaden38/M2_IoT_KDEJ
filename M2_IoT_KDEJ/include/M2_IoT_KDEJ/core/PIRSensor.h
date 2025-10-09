@@ -8,6 +8,10 @@ public:
     bool detectMotion();
     void loop();
     
+    // Public getters for motion status
+    bool isMotionDetected() const { return motionActive; }
+    unsigned long getMotionDuration() const;
+    
 private:
     uint8_t sensorPin;
     bool lastMotionState;

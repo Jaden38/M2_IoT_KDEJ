@@ -42,8 +42,17 @@ void loop() {
     mqtt.loop();
 
     // Check PIR sensor frequently
+    static bool lastMotionState = false;
     if (millis() - lastPIRCheck >= PIR_CHECK_INTERVAL) {
         pirSensor.loop();
+        
+        // Check if motion state changed and publish to MQTT
+        bool currentMotion = pirSensor.isMotionDetected();
+        if (currentMotion != lastMotionState) {
+            mqtt.publishMotionEvent(currentMotion);
+            lastMotionState = currentMotion;
+        }
+        
         lastPIRCheck = millis();
     }
 
